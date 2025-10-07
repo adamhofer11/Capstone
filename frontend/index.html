@@ -1,18 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home | Multi-News synthenzier</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand" href="#">Multi-News synthenzier</a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Toggle navigation">☰</button>
+        <ul id="nav-list" class="nav-list">
+          <li><a class="active" aria-current="page" href="#top">Home</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </header>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        
-        <h1>Home Page</h1>
-        
-        <script src="" async defer></script>
-    </body>
-</html>
+    <a id="top" class="skip-anchor" aria-hidden="true"></a>
+
+    <main class="container" id="main" tabindex="-1">
+      <section class="hero" aria-label="Intro">
+        <h1 class="hero-title">Home Page</h1>
+        <p class="tagline">Jump across today’s top topics from multiple sources.</p>
+        <div class="cta-wrap">
+          <button id="learnMoreBtn" class="btn btn-primary" type="button">Learn More</button>
+        </div>
+      </section>
+
+      <nav class="topic-pills" aria-label="Popular Topics">
+        <a class="pill" href="#world">World</a>
+        <a class="pill" href="#us">U.S.</a>
+        <a class="pill" href="#business">Business</a>
+        <a class="pill" href="#technology">Technology</a>
+        <a class="pill" href="#sports">Sports</a>
+        <a class="pill" href="#entertainment">Entertainment</a>
+        <a class="pill" href="#science">Science</a>
+        <a class="pill" href="#health">Health</a>
+        <a class="pill" href="#politics">Politics</a>
+      </nav>
+
+      <section class="search-area" aria-label="Custom Search">
+        <form id="searchForm" role="search" aria-label="Search all topics">
+          <label for="searchInput" class="sr-only">Search all topics</label>
+          <input id="searchInput" type="search" placeholder="Search all topics" aria-describedby="searchHelp" />
+          <button type="submit" class="btn">Search</button>
+          <div id="searchHelp" class="help">Type to filter article cards across all sections.</div>
+        </form>
+      </section>
+
+      <section id="world" class="topic-section" aria-labelledby="world-title">
+        <h2 id="world-title">World</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="us" class="topic-section" aria-labelledby="us-title">
+        <h2 id="us-title">U.S.</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="business" class="topic-section" aria-labelledby="business-title">
+        <h2 id="business-title">Business</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="technology" class="topic-section" aria-labelledby="technology-title">
+        <h2 id="technology-title">Technology</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="sports" class="topic-section" aria-labelledby="sports-title">
+        <h2 id="sports-title">Sports</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="entertainment" class="topic-section" aria-labelledby="entertainment-title">
+        <h2 id="entertainment-title">Entertainment</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="science" class="topic-section" aria-labelledby="science-title">
+        <h2 id="science-title">Science</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="health" class="topic-section" aria-labelledby="health-title">
+        <h2 id="health-title">Health</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="politics" class="topic-section" aria-labelledby="politics-title">
+        <h2 id="politics-title">Politics</h2>
+        <div class="cards"></div>
+      </section>
+
+      <section id="about" class="supplemental" aria-label="About">
+        <h2>About</h2>
+        <p>This is a simple, responsive front-end demo without frameworks, showing topic navigation, client-side search, and smooth scrolling.</p>
+      </section>
+
+      
+    </main>
+
+    <footer class="site-footer">
+      <small>© <span id="year"></span> Multi-News synthenzier</small>
+    </footer>
+
+    <script src="script.js" defer></script>
+  </body>
+  </html>
+
+
