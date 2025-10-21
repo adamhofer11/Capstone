@@ -198,17 +198,6 @@ h1 { line-height: 1.5; margin: 0; }
 }
 
 /* ===============================
-   Footer
-================================*/
-footer {
-  border-top: 1px solid var(--border);
-  background: var(--header-bg);
-  padding: 1rem;
-  text-align: center;
-  color: #374151;
-}
-
-/* ===============================
    Accessibility & Focus
 ================================*/
 a:focus-visible,
