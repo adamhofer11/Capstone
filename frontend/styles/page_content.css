@@ -1,0 +1,14 @@
+/* Base styles */
+:root {
+  --bg: #ffffff;
+  --text: #1f2937; /* slate-800 */
+  --muted: #6b7280; /* gray-500 */
+  --header-bg: #f3f4f6; /* gray-100 */
+  --border: #e5e7eb; /* gray-200 */
+  --accent: #2563eb; /* blue-600 */
+  --accent-hover: #1d4ed8; /* blue-700 */
+  --pill-bg: #eef2ff; /* indigo-50 */
+  --pill-text: #3730a3; /* indigo-800 */
+  --card-bg: #ffffff;
+  --shadow: 0 1px 2px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.1);
+}
