@@ -160,14 +160,19 @@
           
           // Add click handlers to read more links
           articlesContainer.querySelectorAll('.read-more').forEach(function(link) {
-            link.addEventListener('click', function(e) {
+            // Remove any existing event listeners
+            link.removeEventListener('click', link.clickHandler);
+            // Create new click handler
+            link.clickHandler = function(e) {
               e.preventDefault();
+              e.stopPropagation();
               var title = this.getAttribute('data-title');
               var url = this.getAttribute('data-url');
               var bodyText = this.getAttribute('data-body');
               var card = this.closest('.card');
               createSummaryBox(card, title, url, bodyText);
-            });
+            };
+            link.addEventListener('click', link.clickHandler);
           });
         } else {
           articlesContainer.innerHTML = '<div class="card"><p>No articles available for this topic.</p></div>';
