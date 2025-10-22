@@ -158,21 +158,30 @@ app.get('/api/guardian', async (req, res) => {
   }
 });
 
-// AI Summarization endpoint
-app.post('/api/summarize', async (req, res) => {
-  try {
-    const { text, title } = req.body;
-    
-    if (!text || !title) {
-      return res.status(400).json({ error: 'Text and title are required' });
-    }
+    // AI Summarization endpoint
+    app.post('/api/summarize', async (req, res) => {
+      try {
+        const { text, title } = req.body;
+        
+        if (!text || !title) {
+          return res.status(400).json({ error: 'Text and title are required' });
+        }
 
-    if (!OPENAI_API_KEY) {
-      // Return mock summary when no OpenAI key
-      return res.json({
-        summary: `This article explores ${title.toLowerCase()}, examining the key developments and implications in this area. The piece provides detailed analysis of current trends and their potential impact on various stakeholders. Key findings suggest significant changes are underway, with particular attention to how these developments might affect different sectors and communities. The article presents multiple perspectives on the topic, offering readers a comprehensive understanding of the situation. Important considerations include the timeline for implementation, potential challenges, and expected outcomes. The analysis draws on recent data and expert opinions to provide a well-rounded view of the subject matter.`
-      });
-    }
+        // Debug: Log the content being sent to AI
+        console.log('AI Input - Title:', title);
+        console.log('AI Input - Text length:', text.length);
+        console.log('AI Input - Text preview:', text.substring(0, 200) + '...');
+
+        if (!OPENAI_API_KEY || OPENAI_API_KEY === 'your_openai_api_key_here') {
+          // Create a basic summary from the article content
+          const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20);
+          const keySentences = sentences.slice(0, 3); // Take first 3 meaningful sentences
+          const summary = keySentences.join('. ').trim() + '.';
+          
+          return res.json({ 
+            summary: summary || 'Summary not available. Please read the full article for details.'
+          });
+        }
 
     // Call OpenAI API
     const response = await axios.post('https://api.openai.com/v1/chat/completions', {
@@ -180,15 +189,15 @@ app.post('/api/summarize', async (req, res) => {
       messages: [
         {
           role: 'system',
-          content: 'You are a professional news summarizer. Write a comprehensive 150-200 word summary that captures the key points, main arguments, important details, and implications of the article. Focus on the most significant information that readers need to know. Write in clear, engaging prose that maintains the article\'s tone while being concise and informative.'
+          content: 'You are a news fact extractor. Read the entire article and extract the specific facts, events, and details. Do NOT summarize or paraphrase. Extract the actual information from the article. Include specific names, dates, locations, numbers, quotes, and events mentioned in the article.'
         },
         {
           role: 'user',
-          content: `Summarize this article in 150-200 words, focusing on the key points and main arguments:\n\nTitle: "${title}"\n\nContent: ${text.substring(0, 4000)}`
+          content: `Read this news article and extract the specific facts and details. Include names, dates, locations, numbers, quotes, and events mentioned in the article. Do not summarize - extract the actual information:\n\nTitle: "${title}"\n\nArticle Content:\n${text}`
         }
       ],
-      max_tokens: 300,
-      temperature: 0.3
+      max_tokens: 400,
+      temperature: 0.7
     }, {
       headers: {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
