@@ -1,65 +1,28 @@
 (function () {
-  // Get topic from URL parameter
-  function getTopicFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('topic') || 'world';
+  // Map page names to API section IDs
+  const pageToSection = {
+    'world_news': 'world',
+    'united_states': 'us-news',
+    'business': 'business',
+    'technology': 'technology',
+    'sports': 'sport',
+    'entertainment': 'culture',
+    'science': 'science',
+    'health': 'health',
+    'politics': 'politics'
+  };
+
+  // Get current page name from URL
+  function getCurrentPage() {
+    const path = window.location.pathname;
+    const filename = path.split('/').pop() || 'index.html';
+    return filename.replace('.html', '');
   }
 
-  // Update page title and content based on topic
-  function updatePageForTopic(topic) {
-    const topicNames = {
-      'world': 'World News',
-      'us-news': 'U.S. News', 
-      'business': 'Business',
-      'technology': 'Technology',
-      'sport': 'Sports',
-      'culture': 'Entertainment',
-      'science': 'Science',
-      'health': 'Health',
-      'politics': 'Politics'
-    };
-
-    const topicName = topicNames[topic] || 'News';
-    document.getElementById('page-title').textContent = topicName + ' | Multi-News Synthesizer';
-    document.getElementById('topic-title').textContent = topicName;
-  }
-
-  // Mobile nav toggle
-  var toggle = document.querySelector('.nav-toggle');
-  var list = document.getElementById('nav-list');
-  if (toggle && list) {
-    toggle.addEventListener('click', function () {
-      var expanded = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', String(!expanded));
-      list.classList.toggle('open');
-    });
-  }
-
-  // Search filter for articles
-  var searchForm = document.getElementById('searchForm');
-  var searchInput = document.getElementById('searchInput');
-  var allCards = [];
-
-  function filterCards(query) {
-    var q = (query || '').trim().toLowerCase();
-    if (!q) {
-      allCards.forEach(function (card) { card.style.display = ''; });
-      return;
-    }
-    allCards.forEach(function (card) {
-      var text = (card.textContent || '').toLowerCase();
-      card.style.display = text.indexOf(q) !== -1 ? '' : 'none';
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener('input', function () { filterCards(this.value); });
-  }
-  if (searchForm) {
-    searchForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      filterCards(searchInput ? searchInput.value : '');
-    });
+  // Get section ID for current page
+  function getSectionId() {
+    const page = getCurrentPage();
+    return pageToSection[page] || null;
   }
 
   // Inline summary functionality
@@ -126,24 +89,35 @@
     });
   }
 
-  // Load articles for the current topic
+  // Load articles for the current topic page
   function loadArticles() {
-    const topic = getTopicFromUrl();
-    const articlesContainer = document.getElementById('articles-container');
-    
-    if (!articlesContainer) return;
-    
-    // Show loading
-    articlesContainer.innerHTML = '<div class="card"><p>Loading articles...</p></div>';
-    
+    const sectionId = getSectionId();
+    if (!sectionId) {
+      // Not a topic page, don't load articles
+      return;
+    }
+
+    const main = document.querySelector('main');
+    if (!main) return;
+
+    // Find or create articles container
+    let articlesContainer = main.querySelector('.articles-container');
+    if (!articlesContainer) {
+      // Create container if it doesn't exist
+      articlesContainer = document.createElement('div');
+      articlesContainer.className = 'articles-container';
+      articlesContainer.innerHTML = '<div class="card"><p>Loading articles...</p></div>';
+      main.appendChild(articlesContainer);
+    } else {
+      articlesContainer.innerHTML = '<div class="card"><p>Loading articles...</p></div>';
+    }
+
     // Fetch articles
-    fetch('/api/guardian?section=' + topic + '&limit=12')
+    fetch('/api/guardian?section=' + sectionId + '&limit=12')
       .then(response => response.json())
       .then(data => {
         if (data.items && data.items.length > 0) {
           articlesContainer.innerHTML = '';
-          allCards = [];
-          
           data.items.forEach(function(article) {
             var cardHTML = `
               <div class="card" data-body="${article.bodyText.replace(/"/g, '&quot;')}">
@@ -155,14 +129,8 @@
             articlesContainer.insertAdjacentHTML('beforeend', cardHTML);
           });
           
-          // Update allCards array
-          allCards = Array.prototype.slice.call(articlesContainer.querySelectorAll('.card'));
-          
           // Add click handlers to read more links
           articlesContainer.querySelectorAll('.read-more').forEach(function(link) {
-            // Remove any existing event listeners
-            link.removeEventListener('click', link.clickHandler);
-            // Create new click handler
             link.clickHandler = function(e) {
               e.preventDefault();
               e.stopPropagation();
@@ -183,12 +151,11 @@
       });
   }
 
-  // Footer year
-  var yearEl = document.getElementById('year');
-  if (yearEl) { yearEl.textContent = String(new Date().getFullYear()); }
-
-  // Initialize page
-  const topic = getTopicFromUrl();
-  updatePageForTopic(topic);
-  loadArticles();
+  // Initialize articles when page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadArticles);
+  } else {
+    loadArticles();
+  }
 })();
+

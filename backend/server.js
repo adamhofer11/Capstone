@@ -10,8 +10,23 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+// Disable caching for HTML files to prevent stale content
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html')) {
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+  }
+  next();
+});
+
 // Serve static files from frontend directory
 app.use(express.static('../frontend'));
+
+// Serve Pages/index.html as the root route
+app.get('/', (req, res) => {
+  res.sendFile('Pages/index.html', { root: '../frontend' });
+});
 
 // In-memory cache with TTL
 const cache = new Map();
