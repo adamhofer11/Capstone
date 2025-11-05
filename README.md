@@ -42,7 +42,3 @@ A web application that aggregates news articles from The Guardian API and provid
 - Search functionality
 - Responsive design
 
-
-
-
-
