@@ -1,9 +1,9 @@
 /* Base styles */
 :root {
   --bg: #ffffff;
-  --text: #1f2937; /* slate-800 */
+  --text: #ffffff; 
   --muted: #6b7280; /* gray-500 */
-  --header-bg: #f3f4f6; /* gray-100 */
+  --header-bg: var(--accent); /* #2563eb, blue-600 */
   --border: #e5e7eb; /* gray-200 */
   --accent: #2563eb; /* blue-600 */
   --accent-hover: #1d4ed8; /* blue-700 */
