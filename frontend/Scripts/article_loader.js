@@ -54,6 +54,7 @@
     // Insert summary box into the card
     card.insertAdjacentHTML('beforeend', summaryHTML);
     activeSummary = card.querySelector('.summary-box');
+    card.classList.add('has-summary-open');
     
     // Add event listeners
     activeSummary.querySelector('.summary-close').addEventListener('click', function() {
@@ -66,6 +67,7 @@
       if (activeSummary && !activeSummary.contains(e.target) && !card.contains(e.target)) {
         activeSummary.remove();
         activeSummary = null;
+        card.classList.remove('has-summary-open');
       }
     });
     

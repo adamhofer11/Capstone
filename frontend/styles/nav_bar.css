@@ -1,17 +1,15 @@
 /* ===============================
    Theme Variables
 ================================*/
-:root {
-  --bg: #ffffff;
-  --text: #1f2937;      /* slate-800 */
-  --muted: #6b7280;     /* gray-500 */
-  --header-bg: #f3f4f6; /* gray-100 */
-  --border: #e5e7eb;    /* gray-200 */
-  --accent: #2563eb;    /* blue-600 */
-  --accent-hover: #1d4ed8; /* blue-700 */
-  --pill-bg: #eef2ff;   /* indigo-50 */
-  --pill-text: #3730a3; /* indigo-800 */
-  --card-bg: #ffffff;
+header.site-header {
+
+  --text: #000000;
+  --muted: #6b7280;
+  --header-bg: #b8c3d5;
+  --border: #ffffff;
+  --accent: #4364ac;
+  --pill-bg: #ffffff;
+  --pill-text: #000000;
   --shadow: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.1);
 }
 
@@ -96,13 +94,20 @@ h1 { line-height: 1.5; margin: 0; }
   transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
-  background: transparent;
+  background: var(--pill-bg);
   border: 1px solid var(--border);
   border-radius: .375rem;
   padding: .4rem .6rem;
   font-size: 1.25rem;
   cursor: pointer;
   z-index: 20;
+}
+
+.nav_toggle:hover,
+.nav_toggle:focus {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--border);
 }
 
 /* ===============================
@@ -205,7 +210,6 @@ h1 { line-height: 1.5; margin: 0; }
 
 .pill:hover,
 .pill:focus {
-  text-decoration: underline;
   background: var(--accent);
   color: #fff;
 }
@@ -244,12 +248,15 @@ h1 { line-height: 1.5; margin: 0; }
   border-radius: .5rem;
   font-weight: 600;
   cursor: pointer;
-  background: var(--accent);
-  color: #fff;
+  background: var(--pill-bg);
+  color: var(--pill-text);
 }
 
-.btn:hover {
-  background: var(--accent-hover);
+.search_btn:hover,
+.search_btn:focus {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--border);
 }
 
 .help {

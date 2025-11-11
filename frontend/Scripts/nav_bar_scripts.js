@@ -47,13 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Toggle the hidden attribute - CSS will handle visibility based on screen size
       collapsible.hidden = !newState;
-
+      
       if (newState) {
-        // Menu opening: focus first interactive element
-        const first = collapsible.querySelector('a, button, input, select, textarea');
-        if (first) {
-          setTimeout(() => first.focus(), 100);
-        }
+       toggleBtn.focus();
       }
     };
 
