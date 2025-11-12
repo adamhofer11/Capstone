@@ -29,5 +29,5 @@ document.addEventListener('DOMContentLoaded', () => {
         h.textContent = q ? `Your Search for Summarization: "${q}"` : 'No Results Available.';
     }
 
-    onsole.log('search term:', q);
+    console.log('search term:', q);
 });
